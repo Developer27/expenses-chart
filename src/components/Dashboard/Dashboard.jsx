@@ -53,7 +53,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     calcSum();
-  }, [isLoading])
+  }, [isLoading, closeModal])
 
   function showAmount(e) {
     columns.map(item =>  {
@@ -96,7 +96,7 @@ export default function Dashboard() {
       })
     }
   } 
-
+  console.log('sum', sum)
   function calcSum() {
     const spent = columns.map(item => item.item.amount);
     let sum;
@@ -140,7 +140,11 @@ export default function Dashboard() {
         <span className="close" onClick={closeModal}>&times;</span>
           <div className="add-balance-day">Today is: {today}</div>
           
-          <AddingForm setUpdatedSpending={setUpdatedSpending} setSpending={setSpending} today={today} closeModal={closeModal}/>
+          <AddingForm setUpdatedSpending={setUpdatedSpending}
+            setSpending={setSpending} 
+            today={today} 
+            closeModal={closeModal}
+          />
         </div>
       </div>
 
