@@ -5,12 +5,14 @@
   gap: 20px;
   padding: 30px 15px;
   height: 100%;
+  position: relative;
 }
 
 .my-balance-wrapper {
   display: flex;
   background-color: hsl(10, 79%, 65%);
-  border-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
@@ -180,11 +182,15 @@
 }
 
 .modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
+  height: 40%;
 }
 
 
@@ -193,6 +199,7 @@
   float: right;
   font-size: 28px;
   font-weight: bold;
+  align-self: flex-end;
 }
 
 .close:hover,
@@ -202,25 +209,76 @@
   cursor: pointer;
 }
 
+.adding-balance-wrapper {
+  display: flex;
+  gap: 10px;
+}
+
 .adding-balance-inp {
-  background-color: 
-  hsl(10, 79%, 65%);
+  background-color:hsl(10, 79%, 65%);
   border: 1px solid hsl(10, 52%, 53%);
   color: white;
-  width: 80%;
-  padding: 13px 10px;
+  width: 60%;
+  padding: 4px 10px;
   
   &:focus {
     outline: none;
   }
 }
 
+.no-spendings {
+  align-self: center;
+  color: hsl(25, 47%, 15%);
+  font-weight: 700;
+}
+
+.header {
+  width: 100%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+
+}
+
+.header__btn {
+  padding: 8px;
+  background-color: hsl(10, 79%, 65%);
+  border-radius: 10px;
+  border: 1px solid hsl(10, 52%, 53%);
+  cursor: pointer;
+  color: white;
+  
+  &:active {
+    opacity: 0.5;
+  }
+}
+
+.nav {
+  padding: 10px;
+  width: 100%;
+  & ul {
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+    align-items: center;
+  }  
+}
+
+.upper-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 20%;
+
+}
 
 @media (min-width: 768px) {
   .dashboard-wrapper {
     align-items: center;
   }
-  .my-balance-wrapper {
+  .upper-wrapper {
     width: 50%;
   }
   .chart-section {
@@ -234,7 +292,7 @@
 }
 
 @media (min-width: 1060px) {
-  .my-balance-wrapper {
+  .upper-wrapper {
     width: 25%;
   }
   .chart-section {

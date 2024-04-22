@@ -1,4 +1,36 @@
 .adding-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-color: white;
-  padding: 30px;
+  gap: 10px;
+  height: 80%;
+  width: 80%;
+}
+
+.adding-form-btn {
+  width: 70%;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: hsl(10, 79%, 65%);
+  border: 1px solid hsl(10, 52%, 53%);
+  color: white;
+  cursor: pointer;
+
+  &:active {
+    opacity: 0.5;
+  }
+}
+
+.adding-form-inp {
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  border: 1px solid black;
+
+
+  &:focus {
+    outline: none;
+  }
 }

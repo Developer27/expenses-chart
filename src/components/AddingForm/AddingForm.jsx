@@ -7,18 +7,21 @@ export default function AddingForm(props) {
 
   function submitHandler(e) {
     e.preventDefault();
-    props.setMyBalance(value);
+    props.setSpending(props.today, value)
+    props.closeModal();
   }
+
   return (
-    <div className='adding-form-wrapper'>
       <form action="" className='adding-form' onSubmit={submitHandler}>
-        <div className="add-my-balance">
-          <label htmlFor="balance">Your balance:</label>
-          <input type="text" placeholder='Type your balance' name='balance' id='balance' onChange={e => setValue(e.target.value)}/>
-          <button>Add</button>
-        </div>
-      
+        <label htmlFor="balance">Your balance:</label>
+        <input type="text" placeholder='Type your balance' 
+          name='balance' 
+          id='balance'
+          className='adding-form-inp' 
+          onChange={e => setValue(+e.target.value)}
+        />
+        <button className='adding-form-btn'>Add</button>
       </form>
-    </div>
+
   )
 }
