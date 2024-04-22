@@ -2,10 +2,9 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useRef, useState } from 'react';
 import './Dashboard.css';
-import {db} from '../../firebase';
+import {db} from 'C:/prog/expenses-chart/src/firebase.js';
 import {v4 as uuidv4} from 'uuid';
 
-import Data from 'C:/prog/expenses-chart/src/data.json';
 import { collection, doc, getDoc, onSnapshot, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
 import AddingForm from '../AddingForm/AddingForm';
 
