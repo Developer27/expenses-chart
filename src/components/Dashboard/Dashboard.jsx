@@ -170,7 +170,7 @@ export default function Dashboard() {
             <p className='my-balance__price'>₴{myBalance}</p>
           } 
         </div>
-        <img src="../public/logo.svg" alt="balance-icon" className='my_balance__img' />
+        <img src="assets\logo.svg" alt="balance-icon" className='my_balance__img' />
       </div>
     </div>
       <section className='chart-section'>
