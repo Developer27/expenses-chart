@@ -45,16 +45,16 @@ export default function Dashboard() {
   // const pattern = '30,59 5,23 * * 6';
   const pattern = '*/5 * * * *';
 
-  const job = Cron(pattern, async () => {
-    console.log('Job is running...');
-    resetDb();
+  // const job = Cron(pattern, async () => {
+  //   console.log('Job is running...');
+  //   resetDb();
 
-    if(sum) {
-      console.log('sum, total', sum, total);
-      // setTotal(total+sum);
-      // setSum(0);
-    } 
-  });
+  //   if(sum) {
+  //     console.log('sum, total', sum, total);
+  //     // setTotal(total+sum);
+  //     // setSum(0);
+  //   } 
+  // });
   
   // const nextTimes = Cron(pattern).nextRuns(1);
 
