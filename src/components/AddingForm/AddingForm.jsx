@@ -7,6 +7,13 @@ export default function AddingForm(props) {
 
   function submitHandler(e) {
     e.preventDefault();
+    if(value >= props.myBalance) {
+      console.log("NO MONEY")
+      props.updateBalance(0);
+    } else {
+      props.updateBalance(props.myBalance-value);
+    }
+    console.log(value)
     props.setSpending(props.today, value)
     props.closeModal();
   }
@@ -14,7 +21,7 @@ export default function AddingForm(props) {
   return (
       <form action="" className='adding-form' onSubmit={submitHandler}>
         <label htmlFor="balance">Your balance:</label>
-        <input type="text" placeholder='Type your balance' 
+        <input type="text" placeholder='Type your spending' 
           name='balance' 
           id='balance'
           className='adding-form-inp' 

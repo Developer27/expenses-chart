@@ -1,3 +1,8 @@
+* {
+  --font-color: hsl(25, 47%, 15%);
+  --main-color: hsl(10, 79%, 65%);
+}
+
 .dashboard-wrapper {
   display: flex;
   flex-direction: column;
@@ -8,21 +13,6 @@
   position: relative;
 }
 
-.my-balance-wrapper {
-  display: flex;
-  background-color: hsl(10, 79%, 65%);
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  & > div {
-    display: flex;
-    flex-direction: column;
-    color: white;
-    gap: 5px;
-  }
-}
 
 .chart-section {
   height: 70%;
@@ -35,7 +25,7 @@
 }
 
 .chart-section__title {
-  color: hsl(25, 47%, 15%);
+  color: var(--font-color);
   font-size: 25px;
   font-weight: 700;
   height: 10%;
@@ -46,15 +36,8 @@
   height: 80%;
 }
 
-.my-balance__title {
-  font-size: 12px;
-  font-weight: 400;
-}
 
-.my-balance__price {
-  font-size: 20px;
-  font-weight: 600;
-}
+
 
 .my-balance__img {
   width: 20%;
@@ -80,7 +63,7 @@
 .total-spendings__price {
   font-size: 27px;
   font-weight: 800;
-  color: hsl(25, 47%, 15%);
+  color: var(--font-color);
 }
 
 .percentage-wrapper {
@@ -95,7 +78,7 @@
 .pecentage-number {
   font-size: 14px;
   font-weight: 700;
-  color: hsl(25, 47%, 15%);
+  color: var(--font-color);
 }
 
 .percentage-text {
@@ -127,7 +110,7 @@
 .dashboard-column {
   height: 100%;
   width: 100%;
-  background-color: hsl(10, 79%, 65%);
+  background-color: var(--main-color);
   border-radius: 5px;
   position: relative;
 
@@ -143,7 +126,7 @@
 
 .chart-col-day {
   font-size: 12px;
-  color: hsl(25, 47%, 15%);
+  color: var(--font-color);
 }
 
 .today {
@@ -152,7 +135,7 @@
 
 .amount {
   /* position: absolute; */
-  background-color: hsl(25, 47%, 15%);
+  background-color: var(--font-color);
   font-weight: 600;
   padding: 7px;
   border-radius: 5px;
@@ -191,6 +174,7 @@
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
   height: 40%;
+  border-radius: 10px;
 }
 
 
@@ -209,70 +193,23 @@
   cursor: pointer;
 }
 
-.adding-balance-wrapper {
-  display: flex;
-  gap: 10px;
-}
 
-.adding-balance-inp {
-  background-color:hsl(10, 79%, 65%);
-  border: 1px solid hsl(10, 52%, 53%);
-  color: white;
-  width: 60%;
-  padding: 4px 10px;
-  
-  &:focus {
-    outline: none;
-  }
-}
+
+
 
 .no-spendings {
   align-self: center;
-  color: hsl(25, 47%, 15%);
+  color: var(--font-color);
   font-weight: 700;
-}
-
-.header {
-  width: 100%;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-
-}
-
-.header__btn {
-  padding: 8px;
-  background-color: hsl(10, 79%, 65%);
-  border-radius: 10px;
-  border: 1px solid hsl(10, 52%, 53%);
-  cursor: pointer;
-  color: white;
-  
-  &:active {
-    opacity: 0.5;
-  }
-}
-
-.nav {
-  padding: 10px;
-  width: 100%;
-  & ul {
-    display: flex;
-    list-style: none;
-    justify-content: space-between;
-    align-items: center;
-  }  
 }
 
 .upper-wrapper {
   display: flex;
   flex-direction: column;
   height: 20%;
-
 }
+
+
 
 @media (min-width: 768px) {
   .dashboard-wrapper {

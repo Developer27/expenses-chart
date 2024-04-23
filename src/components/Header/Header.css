@@ -1,0 +1,33 @@
+.header {
+  width: 100%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.nav {
+  padding: 10px;
+  width: 100%;
+  & ul {
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+    align-items: center;
+  }  
+}
+
+.header__btn {
+  padding: 8px;
+  background-color: var(--main-color);
+  border-radius: 10px;
+  border: 1px solid hsl(10, 52%, 53%);
+  cursor: pointer;
+  color: white;
+  
+  &:active {
+    opacity: 0.5;
+  }
+}
