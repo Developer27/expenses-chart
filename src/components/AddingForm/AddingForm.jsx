@@ -1,21 +1,26 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 import './AddingForm.css'
 
-export default function AddingForm(props) {
+export default function AddingForm({myBalance, updateBalance, today, closeModal, setSpending, updateTotal, total, setIsBalanceExceeded, isBalanceExceeded, exceededRef}) {
   const [value, setValue] = useState(0);
-
+ 
   function submitHandler(e) {
     e.preventDefault();
-    if(value >= props.myBalance) {
+    if(value >= myBalance) {
       console.log("NO MONEY")
-      props.updateBalance(0);
+      updateBalance(0);
+      if(myBalance < value) {
+        setIsBalanceExceeded(!isBalanceExceeded)
+      }
+      
     } else {
-      props.updateBalance(props.myBalance-value);
+      updateBalance(myBalance-value);
+      updateTotal(total + value);
     }
-    console.log(value)
-    props.setSpending(props.today, value)
-    props.closeModal();
+    setSpending(today, value);
+    closeModal();
   }
 
   return (

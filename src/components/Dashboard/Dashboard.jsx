@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import './Dashboard.css';
 import {db} from '../../firebase';
 import {v4 as uuidv4} from 'uuid';
-import { Cron } from "croner";
-import { collection, doc, getDoc, getDocs, onSnapshot, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, doc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore';
 import AddingForm from '../AddingForm/AddingForm';
 import Header from '../Header/Header';
 import MyBalanceSection from '../MyBalanceSection/MyBalanceSection';
-import { set } from 'firebase/database';
+import ColumnChart from '../ChartColumn/ColumnChart';
+
 
 uuidv4();
 const dbRef = doc(db, 'balance', 'b7NyfUtxKVfFDqXbV3RV');
@@ -18,47 +18,32 @@ const q = query(collection(db, 'balance'), orderBy('id'));
 export default function Dashboard() {
   // const [columns, setColumns] = useState(Data);
   const [columns, setColumns] = useState([]);
-  const [sum, setSum] = useState(200);
-  const [isShownForm, setIsShownForm] = useState(false);
+  const [sum, setSum] = useState(0);
+  const [total, setTotal] = useState(0);
   const [myBalance, setMyBalance] = useState(0);
+  const [isBalanceExceeded, setIsBalanceExceeded] = useState(false);
   const [isAddingBalance, setIsAddingBalance] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [updatedSpending, setUpdatedSpending] = useState(0);
-  const [total, setTotal] = useState(0);
+  const exceededRef = useRef(null);
+
+
   const openRef = useRef(null);
   const balanceRef = useRef(null);
 
-  const days = ['sun','mon','tues','wed','thurs','fri','sat'];
-  const days1 = [
+  const days = [
     {short: 'sun', full: 'Sunday'},
     {short: 'mon', full: 'Monday'},
     {short: 'tue', full: 'Tuesday'},
     {short: 'wed', full: 'Wednesday'},
-    {short: 'thurs', full: 'Thursday'},
+    {short: 'thu', full: 'Thursday'},
     {short: 'fri', full: 'Friday'},
     {short: 'sat', full: 'Saturday'}];
  
   const date = new Date().getDay();
-  const today = days1[date];
+  const today = days[date];
 
-
-  // const pattern = '30,59 5,23 * * 6';
-  const pattern = '*/5 * * * *';
-
-  // const job = Cron(pattern, async () => {
-  //   console.log('Job is running...');
-  //   resetDb();
-
-  //   if(sum) {
-  //     console.log('sum, total', sum, total);
-  //     // setTotal(total+sum);
-  //     // setSum(0);
-  //   } 
-  // });
-  
-  // const nextTimes = Cron(pattern).nextRuns(1);
-
-  // console.log('Next run times:', nextTimes.map(d => d.toLocaleTimeString()));
+  // const pattern = '59 23 * * 0';
+  // const pattern = '*/5 * * * *';
 
   useEffect(() => {
     onSnapshot(q, (snapshot) => {
@@ -66,81 +51,16 @@ export default function Dashboard() {
         item: doc.data()
       }));
       setMyBalance(data[0].item.balance);
+      setTotal(data[0].item.total);
       data.shift()
       setColumns(data);
       setIsLoading(false);
     })
-    console.log('1')
   }, []);
 
-  // useEffect(() => {
-  //   async function getData() {
-  //     const data = await getDoc(dbRef);
-  //     setMyBalance(data.data().balance)
-  //   }
-  //   getData();
-  //   console.log('2')
-  // }, [isAddingBalance]);
- 
   useEffect(() => {
     calcSum();
-    console.log('3')
   }, [isLoading, columns])
-
-  // useEffect(() => {
-  //   calcSum();
-  //   console.log('3')
-  // }, [isLoading, closeModal])
-
-
-
-  async function resetDb() {
-    const querySnapshot = await getDocs(q);
-    const arr = [];
-    querySnapshot.forEach((doc, i) => {
-      arr.push(doc.data());
-      if(doc.data().id != 0) {
-        updateDoc(doc.ref, {amount: 0}).then(() => {
-          console.log("Document successfully updated!");
-      })
-      .catch((error) => {
-          console.error("Error updating document: ", error);
-      });
-    }
-  });
- console.log(arr)
-}
-
-
-// async function resetDb() {
-//   onSnapshot(q, (snapshot) => {
-//     snapshot.docs.forEach((doc , i) => {
-     
-//         updateDoc(doc.ref, {amount: 0}).then(() => {
-//           console.log("Document successfully updated!", i);
-          
-//       })
-//       .catch((error) => {
-//           console.error("Error updating document: ", error);
-//       });
-//     }
-//     );
-    
-//   });
-  
-// //   querySnapshot.forEach((doc, i) => {
-// //     if(doc.data().id != 0) {
-// //       updateDoc(doc.ref, {amount: 0}).then(() => {
-// //         console.log("Document successfully updated!");
-// //     })
-// //     .catch((error) => {
-// //         console.error("Error updating document: ", error);
-// //     });
-// //   }
-// // });
-
-// }
-// console.log('total', total)
 
   function showAmount(e) {
     columns.map(item =>  {
@@ -182,7 +102,7 @@ export default function Dashboard() {
     }
   } 
 
- async function calcSum() {
+  async function calcSum() {
     const spent = await columns.map(item => item.item.amount);
     let sum;
     if(spent.length) {
@@ -193,11 +113,6 @@ export default function Dashboard() {
     } else {
       setSum(0);
     }
-    // if(sum) {
-    //   setSum(sum);
-    // }
-    console.log(spent)
-    // setSum(sum);
   }
 
   function showModal() {
@@ -227,21 +142,33 @@ export default function Dashboard() {
     setMyBalance(newBalance);
   }
 
+  async function updateTotal(newTotal) {
+    updateDoc(dbRef,  {
+      total: newTotal
+    })
+    setMyBalance(newTotal);
+  }
+
   return (
     
     <div className='dashboard-wrapper'> 
-  
+   
       <div id="myModal" className="modal" ref={openRef}>
         <div className="modal-content">
-        <span className="close" onClick={closeModal}>&times;</span>
+          <span className="close" onClick={closeModal}>&times;</span>
           <div className="add-balance-day">Today is: {today.full}</div>
-          
-          <AddingForm setUpdatedSpending={setUpdatedSpending}
+            
+          <AddingForm 
             setSpending={setSpending} 
             today={today.short} 
             closeModal={closeModal}
             updateBalance={updateBalance}
             myBalance={myBalance}
+            total={total}
+            updateTotal={updateTotal}
+            setIsBalanceExceeded={setIsBalanceExceeded}
+            isBalanceExceeded={isBalanceExceeded}
+            exceededRef={exceededRef}
           />
         </div>
       </div>
@@ -258,6 +185,8 @@ export default function Dashboard() {
           addBalance={addBalance}
           balanceRef={balanceRef}
           myBalance={myBalance}
+          isBalanceExceeded={isBalanceExceeded}
+          exceededRef={exceededRef}
         />
       </div>
       <section className='chart-section'>
@@ -270,18 +199,16 @@ export default function Dashboard() {
             <div className='no-spendings'>{`You haven't spent anything this week!`}</div>
             : 
             columns.map((col, i) => {
-              return <div key={i} className="col-wrapper" >
-                  <div className='amount'>₴{col.item.amount}</div>
-                  <div className={`dashboard-column ${col.item.day === today.short ? 'today' : ''}`} style={{height: `${col.item.amount/20}%`}}
-                    onMouseOver={(e) => showAmount(e)}
-                    onMouseOut={(e) => hideAmount(e)}
-                    onClick={(e) => toggleAmount(e)}
-                  >
-                    <span>{`${col.item.show}`}</span>
-
-                  </div>
-                  <p className="chart-col-day">{col.item.day}</p>
-              </div> 
+              return <ColumnChart
+                    key={i}
+                    amount={col.item.amount}
+                    day={col.item.day}
+                    short={today.short}
+                    show={col.item.show}
+                    showAmount={showAmount}
+                    hideAmount={hideAmount}
+                    toggleAmount={toggleAmount}
+                    />
             })}
           </div>
         </div>
@@ -292,8 +219,8 @@ export default function Dashboard() {
             <p className='total-spendings__price'>₴{sum}</p>
           </div>
           <div className='percentage-wrapper'>
-            <p className='pecentage-number'>+2.4%</p>
-            <p className='percentage-text'>from last month</p>
+            <p className='total-spendings__title'>Total this month</p>
+            <div className='total-spendings__price'>₴{total}</div>
           </div>
         </div>
       </section>   

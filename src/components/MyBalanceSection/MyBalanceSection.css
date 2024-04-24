@@ -49,3 +49,9 @@
   font-size: 20px;
   font-weight: 600;
 }
+
+.my-balance__exceeded {
+  color: hsl(262, 91%, 44%);
+  padding-left: 5px;
+  font-size: 13px;
+}
